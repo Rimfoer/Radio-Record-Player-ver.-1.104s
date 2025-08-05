@@ -1,0 +1,6 @@
+#EXTM3U
+
+#EXTINF:-1,Гоп FM (32kbps AAC+)
+http://radiorecord.hostingradio.ru/gop32.aacp
+#EXTINF:-1,Гоп FM (128kbps AAC+)
+http://radiorecord.hostingradio.ru/gop96.aacp
