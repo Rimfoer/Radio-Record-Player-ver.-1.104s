@@ -46,7 +46,7 @@
 		</div>
 		<script>
 			let ctInterval, mInterval, radio, url;
-			let currParser = 0, currTime = 0, playStatus = 'reading', smVolume = parseInt(localStorage.currVolume) || 70, smErrorCounter = 0, watch_pos = window.devicePixelRatio > 1 ? '-2px' : '-4px';
+			let currParser = 0, currTime = 0, playStatus = 'reading', smVolume = localStorage.currVolume || 70, smErrorCounter = 0, watch_pos = window.devicePixelRatio > 1 ? '-2px' : '-4px';
 
 			$(function() {
 				document.oncontextmenu = function() {return false;};
