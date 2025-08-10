@@ -2,7 +2,7 @@ const animParams = {fps:30,animations:{0:[0],1:[0,1],r1:[1,0],2:[0,1,2],r2:[2,1,
 	clr = {"artist":{"off":"rgb(255,255,255,0)","on":"rgb(255,255,255,1)"},"title":{"off":"rgb(201,201,201,0)","on":"rgb(201,201,201,1)"}},
 	parser = ['record','ps','tm','teo'],
 	showTitles = ['Record Club', 'Record Club Chart', 'Record News', 'Record Dance Radio', 'Record Superchart', 'Вейкаперы', 'Кремов и Хрусталёв', 'by DJ Peretse'],
-	stream = ['http://radiorecord.hostingradio.ru/rr_main96.aacp','http://radiorecord.hostingradio.ru/ps96.aacp','http://radiorecord.hostingradio.ru/tm96.aacp','http://radiorecord.hostingradio.ru/teo96.aacp'];
+	stream = ['https://radiorecord.hostingradio.ru/rr_main96.aacp','https://radiorecord.hostingradio.ru/ps96.aacp','https://radiorecord.hostingradio.ru/tm96.aacp','https://radiorecord.hostingradio.ru/teo96.aacp'];
 let getCurVolPos = 0;
 
 function currPlayerStatus(stat) {
@@ -231,4 +231,5 @@ function showMessage(txt) {
 			setWatch(0);
 		}
 	});
+
 })(jQuery);
