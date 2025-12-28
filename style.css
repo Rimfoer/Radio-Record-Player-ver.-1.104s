@@ -97,7 +97,7 @@ html, body {
 	float: left;
 	height: 125px;
 	margin-left: 1px;
-	margin-top: .6px;
+	margin-top: 1px;
 	overflow: hidden;
 	width: 105px;
 }
@@ -482,6 +482,10 @@ html, body {
 	padding: 0;
 }
 
+.context-menu ul li:hover {
+	background-color: #eee;
+}
+
 .context-menu ul li a {
 	color: #333;
 	display: block;
@@ -491,10 +495,6 @@ html, body {
 	margin-left: 20px;
 	padding: 5px;
 	text-decoration: none;
-}
-
-.context-menu ul li a:hover {
-	background-color: #eee;
 }
 
 #rr .station-img .cover { background-image: url('img/logos/rr.png'); background-position-x: -2px; }
