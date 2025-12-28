@@ -51,6 +51,8 @@
 			$(function() {
 				document.oncontextmenu = function() {return false;};
 				$(window).resize();
+				if(!localStorage.currVolume) localStorage.currVolume = '70';
+				localStorage.playSource = '';
 			});
 
 			soundManager.setup({
