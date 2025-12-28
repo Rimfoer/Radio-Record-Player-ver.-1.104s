@@ -80,7 +80,6 @@ html, body {
 	background-color: #000;
 	float: left;
 	height: 504px;
-	margin-top: -1px;
 	overflow: hidden;
 	vertical-align: top;
 	width: 422px;
@@ -183,7 +182,7 @@ html, body {
 
 .radio .station .play .play-button.playing ~ .play-button-bg,
 .radio .station .play .play-button.connecting ~ .play-button-bg {
-	opacity: .7;
+	opacity: .8;
 	transition: opacity .4s linear;
 }
 
@@ -489,6 +488,7 @@ html, body {
 	font-family: sans-serif;
 	font-size: 16px;
 	height: 20px;
+	margin-left: 20px;
 	padding: 5px;
 	text-decoration: none;
 }
