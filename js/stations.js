@@ -198,7 +198,6 @@ function showMessage(txt) {
 			setWatch(0);
 			$('.watch').addClass('active');
 			$('.station.active').children('.volume').addClass('active');
-			$('.station.active').children('.station-text').addClass('shorted');
 			localStorage.playSource = 'current';
 		},
 		stop: function() {
@@ -206,7 +205,6 @@ function showMessage(txt) {
 			clearInterval(ctInterval);
 			$('.station.active').children('.volume').removeClass('active');
 			$('.station.active').find('.play-button').removeClass(['connecting','playing']);
-			$('.station.active').children('.station-text').removeClass('shorted');
 			$('.watch').removeClass('active');
 			ctInterval = undefined,
 			currTime = 0,
@@ -217,5 +215,6 @@ function showMessage(txt) {
 	});
 
 })(jQuery);
+
 
 
