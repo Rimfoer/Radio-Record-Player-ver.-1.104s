@@ -1,4 +1,4 @@
-const animParams = {fps:30,animations:{0:[0],1:[0,1],r1:[1,0],2:[0,1,2],r2:[2,1,0],3:[0,1,2,3],r3:[3,2,1,0],4:[0,1,2,3,4],r4:[4,3,2,1,0],5:[0,1,2,3,4,5],r5:[5,4,3,2,1,0],6:[0,1,2,3,4,5,6],r6:[6,5,4,3,2,1,0],7:[0,1,2,3,4,5,6,7],r7:[7,6,5,4,3,2,1,0],8:[0,1,2,3,4,5,6,7,8],r8:[8,7,6,5,4,3,2,1,0],9:[0,1,2,3,4,5,6,7,8,9],r9:[9,8,7,6,5,4,3,2,1,0],10:[0,1,2,3,4,5,6,7,8,9,10],r10:[10,9,8,7,6,5,4,3,2,1,0]},loop: false,autoPlay: false},
+const animParams = {fps:60,animations:{0:[0],1:[0,1],r1:[1,0],2:[0,1,2],r2:[2,1,0],3:[0,1,2,3],r3:[3,2,1,0],4:[0,1,2,3,4],r4:[4,3,2,1,0],5:[0,1,2,3,4,5],r5:[5,4,3,2,1,0],6:[0,1,2,3,4,5,6],r6:[6,5,4,3,2,1,0],7:[0,1,2,3,4,5,6,7],r7:[7,6,5,4,3,2,1,0],8:[0,1,2,3,4,5,6,7,8],r8:[8,7,6,5,4,3,2,1,0],9:[0,1,2,3,4,5,6,7,8,9],r9:[9,8,7,6,5,4,3,2,1,0],10:[0,1,2,3,4,5,6,7,8,9,10],r10:[10,9,8,7,6,5,4,3,2,1,0]},loop: false,autoPlay: false},
 	clr = {"artist":{"off":"rgb(255,255,255,0)","on":"rgb(255,255,255,1)"},"title":{"off":"rgb(163,163,163,0)","on":"rgb(163,163,163,1)"}},
 	parser = ['record','ps','tm','teo'],
 	showTitles = ['Record Club', 'Record Club Chart', 'Record News', 'Record Dance Radio', 'Record Superchart', 'Selection', 'Вейкаперы', 'Кремов и Хрусталёв', 'by DJ Peretse'],
@@ -46,19 +46,19 @@ function openURL(windowName, url) {
 	window.popups[windowName] = wnd;
 }
 
-function parseTitle(Titler, txt1, txt2) {
+function parseTitle(Titler, elem) {
 	$.each(Titler, function(key, val) {
 		switch(key) {
 			case 'artist': {
-				txt1.html(val.setArtistName(Titler.trackname));
-				txt1.animate({color: clr.artist.on}, 400, function() {
+				elem.find('.station-track-artist').html(val.setArtistName(Titler.trackname));
+				elem.find('.station-track-artist').animate({color: clr.artist.on}, 400, function() {
 					$(this).attr('title', val);
 				});
 				break;
 			}
 			case 'trackname': {
-				txt2.html(val.setSongName(Titler.artist));
-				txt2.animate({color: clr.title.on}, 400, function() {
+				elem.find('.station-track-title').html(val.setSongName(Titler.artist));
+				elem.find('.station-track-title').animate({color: clr.title.on}, 400, function() {
 					$(this).attr('title', val);
 					currParser>=3 ? currParser = 0 : currParser++;
 					$(`.station:eq(${currParser})`).children('.pie-timer').addClass('active');
@@ -74,21 +74,17 @@ function updateTitle(startWith) {
 	if(mInterval !== undefined) clearInterval(mInterval);
 	$('.station').children('.pie-timer').removeClass('active');
 	$.getJSON(`https://tags.radiorecord.fm/now.php?chan=${parser[startWith>=0 ? startWith : currParser]}`).done(function(data) {
-		parseTitle(
-			data,
-			$(`.station:eq(${currParser})`).find('.station-track-artist'),
-			$(`.station:eq(${currParser})`).find('.station-track-title')
-		);
-		setTimeout(() => hideTextMetadata(currParser), 9800);
+		setTimeout(() => hideTextMetadata($(`.station:eq(${currParser})`)), 9600);
+		parseTitle(data, $(`.station:eq(${currParser})`));
 	}).fail(function() {
 		showMessage('notloaded');
 		mInterval = setInterval(() => updateTitle(), 10000);
 	});
 }
 
-function hideTextMetadata(num) {
-	$(`.station:eq(${num})`).find('.station-track-artist').animate({color: clr.artist.off}, 400);
-	$(`.station:eq(${num})`).find('.station-track-title').animate({color: clr.title.off}, 400);
+function hideTextMetadata(el) {
+	el.find('.station-track-artist').animate({color: clr.artist.off}, 400);
+	el.find('.station-track-title').animate({color: clr.title.off}, 400);
 }
 
 Number.prototype.limiter = function(num) {
@@ -96,7 +92,7 @@ Number.prototype.limiter = function(num) {
 }
 
 String.prototype.setArtistName = function(s_name) {
-	return (String(this) === '' && showTitles.includes(s_name) || String(this) === 'Radio Record' && showTitles.includes(s_name) ? `В эфире: ${s_name}` :  String(this));
+	return (String(this) === '' && showTitles.includes(s_name) || String(this) === 'Radio Record' && showTitles.includes(s_name) ? `В эфире: ${s_name}` : String(this) === '' ? 'В эфире:' :  String(this));
 };
 
 String.prototype.setSongName = function(a_name) {
@@ -105,9 +101,10 @@ String.prototype.setSongName = function(a_name) {
 
 function setWatch(ts) {
 	let time = Math.floor(ts/1000);
-	let hours = String(Math.floor(time/3600)).padStart(2,'0');
-	let minutes = String(Math.floor((time-hours*3600)/60)).padStart(2,'0');
-	let seconds = String(time-(hours*3600+minutes*60)).padStart(2,'0');
+	let days = Math.floor(time%86400);
+	let hours = String(Math.floor(days/3600)).padStart(2,'0');
+	let minutes = String(Math.floor((days-hours*3600)/60)).padStart(2,'0');
+	let seconds = String(days-(hours*3600+minutes*60)).padStart(2,'0');
 	let milliseconds = String(ts%1000).padStart(3,'0');
 	switch(playStatus) {
 		case 'connecting':
@@ -132,36 +129,23 @@ function setWatch(ts) {
 }
 
 function showMessage(txt) {
+	let msg;
 	switch(txt) {
-		case 'copy':
-			$('.tooltip').html('Текст скопирован в буфер обмена');
-			break;
-		case 'mute':
-			$('.tooltip').html('Звук приглушен');
-			break;
-		case 'noselect':
-			$('.tooltip').html('Станция не выбрана');
-			break;
-		case 'nocopy':
-			$('.tooltip').html('Текст не был скопирован');
-			break;
-		case 'notloaded':
-			$('.tooltip').html('Ошибка загрузки данных о текущем треке');
-			break;
-		case 'nowplaying':
-			$('.tooltip').html('Воспроизведение остановлено');
-			break;
-		case 'restart':
-			$('.tooltip').html('Воспроизведение перезапущено');
-			break;
-		case 'unmute':
-			$('.tooltip').html('Звук возобновлен');
-			break;
-		default:
-			$('.tooltip').html('Не понимаю, что ты от меня хочешь');
+		case 'closeTab': msg = 'Теперь вкладку можно закрыть.'; break;
+		case 'copy': msg = 'Текст скопирован в буфер обмена'; break;
+		case 'copytext': msg = 'Нажми два раза, чтобы скопировать в буфер обмена'; break;
+		case 'mute': msg = 'Звук приглушен'; break;
+		case 'nocopy': msg = 'Текст не был скопирован'; break;
+		case 'noselect': msg = 'Станция не выбрана'; break;
+		case 'noconnect': msg = 'Ошибка подключения к аудиопотоку. Проверьте состояние интернет-соединения или попробуйте подключиться позже.'; break;
+		case 'notloaded': msg = 'Ошибка загрузки данных о текущем треке'; break;
+		case 'nowplaying': msg = 'Воспроизведение остановлено'; break;
+		case 'restart': msg = 'Воспроизведение перезапущено'; break;
+		case 'unmute': msg = 'Звук возобновлен'; break;
+		default: msg = 'Не понимаю, что ты от меня хочешь';
 	}
-	$('.tooltip').addClass('active');
-	setTimeout(() => $('.tooltip').removeClass('active'), 5000);
+	$('.tooltip').html(msg).addClass('active');
+	setTimeout(() => $('.tooltip').removeClass('active'), 6000+String(msg).length*50);
 }
 
 (function($) {
@@ -215,6 +199,7 @@ function showMessage(txt) {
 	});
 
 })(jQuery);
+
 
 
 
