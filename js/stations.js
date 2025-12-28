@@ -1,8 +1,9 @@
 const animParams = {fps:30,animations:{0:[0],1:[0,1],r1:[1,0],2:[0,1,2],r2:[2,1,0],3:[0,1,2,3],r3:[3,2,1,0],4:[0,1,2,3,4],r4:[4,3,2,1,0],5:[0,1,2,3,4,5],r5:[5,4,3,2,1,0],6:[0,1,2,3,4,5,6],r6:[6,5,4,3,2,1,0],7:[0,1,2,3,4,5,6,7],r7:[7,6,5,4,3,2,1,0],8:[0,1,2,3,4,5,6,7,8],r8:[8,7,6,5,4,3,2,1,0],9:[0,1,2,3,4,5,6,7,8,9],r9:[9,8,7,6,5,4,3,2,1,0],10:[0,1,2,3,4,5,6,7,8,9,10],r10:[10,9,8,7,6,5,4,3,2,1,0]},loop: false,autoPlay: false},
 	clr = {"artist":{"off":"rgb(255,255,255,0)","on":"rgb(255,255,255,1)"},"title":{"off":"rgb(163,163,163,0)","on":"rgb(163,163,163,1)"}},
 	parser = ['record','ps','tm','teo'],
-	showTitles = ['Record Club', 'Record Club Chart', 'Record News', 'Record Dance Radio', 'Record Superchart', 'Вейкаперы', 'Кремов и Хрусталёв', 'by DJ Peretse'],
+	showTitles = ['Record Club', 'Record Club Chart', 'Record News', 'Record Dance Radio', 'Record Superchart', 'Selection', 'Вейкаперы', 'Кремов и Хрусталёв', 'by DJ Peretse'],
 	stream = ['https://radiorecord.hostingradio.ru/rr_main96.aacp','https://radiorecord.hostingradio.ru/ps96.aacp','https://radiorecord.hostingradio.ru/tm96.aacp','https://radiorecord.hostingradio.ru/teo96.aacp'];
+	specialChars = /[@#$%^*_\=\[\]{};:"\\|<>\/]/;
 let getCurVolPos = 0;
 
 function currPlayerStatus(stat) {
@@ -216,4 +217,5 @@ function showMessage(txt) {
 	});
 
 })(jQuery);
+
 
