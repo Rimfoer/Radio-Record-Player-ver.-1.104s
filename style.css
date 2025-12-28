@@ -190,30 +190,25 @@ html, body {
 .radio .station .station-text {
 	float: left;
 	height: 30px;
-	left: 9%;
+	left: 44px;
 	overflow: hidden;
 	padding-bottom: 10px;
+	padding-right: 30px;
 	position: relative;
-	top: 23px;
-	width: 250px;
-	transition: width .4s linear;
-}
-
-.radio .station.active .station-text.shorted {
-	width: 208px;
-	transition: width .4s linear;
+	top: 22px;
+	width: 202px;
 }
 
 .radio .station .station-text span {
-	color: rgb(255,255,255,1);
 	cursor: default;
 	display: block;
+	line-height: 14px;
 	overflow: hidden;
 	position: relative;
 	text-overflow: ellipsis;
 	user-select: none;
-	white-space: nowrap;
 	width: 100%;
+	white-space: nowrap;
 }
 
 .radio .station .station-text span:nth-child(even) {
