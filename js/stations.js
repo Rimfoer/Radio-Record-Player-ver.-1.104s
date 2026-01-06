@@ -211,6 +211,20 @@ function showMessage(txt) {
 	setTimeout(() => $('.tooltip').removeClass('active'), 6000+String(msg).length*50);
 }
 
+function checkLSItems() {
+	const obj = ['copyTextTip', 'currVolume'];
+	for(cls = 0; cls < obj.length; cls++) {
+		if(!localStorage[obj[cls]]) setLSItem(obj[cls]);
+	}
+}
+
+function setLSItem(id) {
+	switch(id) {
+		case 'copyTextTip': localStorage[id] = false; break;
+		case 'currVolume': localStorage[id] = '70'; break;
+	}
+}
+
 (function($) {
 	$.fn.extend({
 		play: function() {
@@ -262,5 +276,6 @@ function showMessage(txt) {
 	});
 
 })(jQuery);
+
 
 
