@@ -54,9 +54,9 @@
 			soundManager.setup({
 				preferFlash: false,
 				onready: function() {
+					checkLSItems();
 					playStatus = 'stopped';
 					$('.station').children('.play').removeClass('disabled');
-					if(!localStorage.currVolume) localStorage.currVolume = '70';
 					$('.volume-click, .volume-rollover').animateSprite(animParams);
 					$('.volume-click').animateSprite('play', `${Math.round(smVolume/10)}`);
 					updateTitle(0);
@@ -131,6 +131,13 @@
 				} else {
 					navigator.clipboard.writeText($(this).children('span:eq(0)').attr('title') + ' - ' + $(this).children('span:eq(1)').attr('title'));
 					showMessage('copy');
+				}
+			}).on('mouseenter', '.station-text span', function() {
+				if(localStorage.copyTextTip === 'false') {
+					$(this).css('pointer-events', 'none');
+					showMessage('copytext');
+					setTimeout(() => $(this).css('pointer-events', ''), 6000);
+					localStorage.copyTextTip = 'true';
 				}
 			});
 
