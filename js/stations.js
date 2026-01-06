@@ -39,7 +39,7 @@ function currPlayerStatus(stat) {
 function openURL(windowName, url) {
 	if(!window.popups) window.popups = [];
 	let wnd = window.popups[windowName];
-	let resolution = url !== window.location.href ? 'width=839,height=420' : 'width=418,height=544';
+	let resolution = url !== window.location.href ? 'width=839,height=420' : 'width=422,height=554';
 	if(wnd && !wnd.closed) wnd.focus(); 
 	wnd = window.open(url, windowName, `top=100,left=200,${resolution},location=no,menubar=no,resizable=no,scrollbars=no,status=no,toolbar=no`);
 	wnd.focus();
@@ -262,4 +262,5 @@ function showMessage(txt) {
 	});
 
 })(jQuery);
+
 
