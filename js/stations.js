@@ -4,7 +4,7 @@ const parser = ['record','ps','tm','teo'];
 const showArtists = ['Gvozd', 'Record Megamix', 'Selection', 'Вейкаперы', 'Кремов и Хрусталёв'];
 const showTitles = ['Record Club', 'Record News', 'Record Superchart', 'Record Club Chart', 'Record Dance Radio', 'by DJ Peretse'];
 const stream = ['https://radiorecord.hostingradio.ru/rr_main96.aacp','https://radiorecord.hostingradio.ru/ps96.aacp','https://radiorecord.hostingradio.ru/tm96.aacp','https://radiorecord.hostingradio.ru/teo96.aacp'];
-const specialChars = /[@#$%^*_\=\[\]{};:"\\|<>\/]/;
+const specialChars = /[@#$%^*_\=\{};:"\\|<>\/]/;
 
 function currPlayerStatus(stat) {
 	let cur = $('.station.active').find('.play-button');
@@ -262,3 +262,4 @@ function showMessage(txt) {
 	});
 
 })(jQuery);
+
