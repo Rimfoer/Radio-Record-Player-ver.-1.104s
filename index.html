@@ -36,6 +36,9 @@
 				<li>
 					<a href="https://piratestation.info" target="_blank">Pirate Station</a>
 				</li>
+				<li>
+					<a href="file:///C:/Users/delirium/Desktop/Radio%20Record%20Player%20ver.%201.104s/index.html" name="Radio Record Player ver. 1.104s">Открыть в другом окне</a>
+				</li>
 			</ul>
 		</div>
 		<script>
@@ -141,7 +144,11 @@
 			}).on('click', '.context-menu ul li a', function(e) {
 				e.preventDefault();
 				$('.context-menu').removeClass('active');
-				window.open(this.href, '_blank').focus();
+				if(!$(this).attr('target')) {
+					openURL(this.name, this.href);
+				} else {
+					window.open(this.href, '_blank').focus();
+				}
 			}).on('mouseleave', function() {
 				$('.context-menu').removeClass('active');
 			});
