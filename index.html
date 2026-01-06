@@ -12,18 +12,12 @@
 		<script src="js/soundmanager2.js"></script>
 	</head>
 	<body>
-		<table class="wrapper">
-			<tr>
-				<td class="content">
-					<div class="radio">
-						<div class="station" id="rr"><div class="station-img"><div class="cover"></div></div><div class="station-name"></div><div class="play disabled"><div class="play-button"></div><div class="play-button-bg"></div></div><div class="station-text"><span class="station-track-artist"></span><span class="station-track-title"></span></div><div class="volume"><div class="volume-click"></div><div class="volume-rollover"></div></div><div class="listen-player"><div class="listen-player-button"></div><div class="listen-player-selector"><a href="medialinks/listen_rr.m3u"></a><a href="medialinks/listen_rr.ram"></a><a href="medialinks/listen_rr.asx"></a></div></div><div class="pie-timer"><div class="pie-spinner"></div></div></div>
-						<div class="station" id="ps"><div class="station-img"><div class="cover"></div></div><div class="station-name"></div><div class="play disabled"><div class="play-button"></div><div class="play-button-bg"></div></div><div class="station-text"><span class="station-track-artist"></span><span class="station-track-title"></span></div><div class="volume"><div class="volume-click"></div><div class="volume-rollover"></div></div><div class="listen-player"><div class="listen-player-button"></div><div class="listen-player-selector"><a href="medialinks/listen_ps.m3u"></a><a href="medialinks/listen_ps.ram"></a><a href="medialinks/listen_ps.asx"></a></div></div><div class="pie-timer"><div class="pie-spinner"></div></div></div>
-						<div class="station" id="tm"><div class="station-img"><div class="cover"></div></div><div class="station-name"></div><div class="play disabled"><div class="play-button"></div><div class="play-button-bg"></div></div><div class="station-text"><span class="station-track-artist"></span><span class="station-track-title"></span></div><div class="volume"><div class="volume-click"></div><div class="volume-rollover"></div></div><div class="listen-player"><div class="listen-player-button"></div><div class="listen-player-selector"><a href="medialinks/listen_tm.m3u"></a><a href="medialinks/listen_tm.ram"></a><a href="medialinks/listen_tm.asx"></a></div></div><div class="pie-timer"><div class="pie-spinner"></div></div></div>
-						<div class="station" id="teo"><div class="station-img"><div class="cover"></div></div><div class="station-name"></div><div class="play disabled"><div class="play-button"></div><div class="play-button-bg"></div></div><div class="station-text"><span class="station-track-artist"></span><span class="station-track-title"></span></div><div class="volume"><div class="volume-click"></div><div class="volume-rollover"></div></div><div class="listen-player"><div class="listen-player-button"></div><div class="listen-player-selector"><a href="medialinks/listen_teo.m3u"></a><a href="medialinks/listen_teo.ram"></a><a href="medialinks/listen_teo.asx"></a></div></div><div class="pie-timer"><div class="pie-spinner"></div></div></div>
-					</div>
-				</td>
-			</tr>
-		</table>
+		<div class="radio">
+			<div class="station" id="rr"><div class="station-img"><div class="cover"></div></div><div class="station-name"></div><div class="play disabled"><div class="play-button"></div><div class="play-button-bg"></div></div><div class="station-text"><span class="station-track-artist"></span><span class="station-track-title"></span></div><div class="volume"><div class="volume-click"></div><div class="volume-rollover"></div></div><div class="listen-player"><div class="listen-player-button"></div><div class="listen-player-selector"><a href="medialinks/listen_rr.m3u"></a><a href="medialinks/listen_rr.ram"></a><a href="medialinks/listen_rr.asx"></a></div></div><div class="pie-timer"><div class="pie-spinner"></div></div></div>
+			<div class="station" id="ps"><div class="station-img"><div class="cover"></div></div><div class="station-name"></div><div class="play disabled"><div class="play-button"></div><div class="play-button-bg"></div></div><div class="station-text"><span class="station-track-artist"></span><span class="station-track-title"></span></div><div class="volume"><div class="volume-click"></div><div class="volume-rollover"></div></div><div class="listen-player"><div class="listen-player-button"></div><div class="listen-player-selector"><a href="medialinks/listen_ps.m3u"></a><a href="medialinks/listen_ps.ram"></a><a href="medialinks/listen_ps.asx"></a></div></div><div class="pie-timer"><div class="pie-spinner"></div></div></div>
+			<div class="station" id="tm"><div class="station-img"><div class="cover"></div></div><div class="station-name"></div><div class="play disabled"><div class="play-button"></div><div class="play-button-bg"></div></div><div class="station-text"><span class="station-track-artist"></span><span class="station-track-title"></span></div><div class="volume"><div class="volume-click"></div><div class="volume-rollover"></div></div><div class="listen-player"><div class="listen-player-button"></div><div class="listen-player-selector"><a href="medialinks/listen_tm.m3u"></a><a href="medialinks/listen_tm.ram"></a><a href="medialinks/listen_tm.asx"></a></div></div><div class="pie-timer"><div class="pie-spinner"></div></div></div>
+			<div class="station" id="teo"><div class="station-img"><div class="cover"></div></div><div class="station-name"></div><div class="play disabled"><div class="play-button"></div><div class="play-button-bg"></div></div><div class="station-text"><span class="station-track-artist"></span><span class="station-track-title"></span></div><div class="volume"><div class="volume-click"></div><div class="volume-rollover"></div></div><div class="listen-player"><div class="listen-player-button"></div><div class="listen-player-selector"><a href="medialinks/listen_teo.m3u"></a><a href="medialinks/listen_teo.ram"></a><a href="medialinks/listen_teo.asx"></a></div></div><div class="pie-timer"><div class="pie-spinner"></div></div></div>
+		</div>
 		<div class="footer">
 			<div class="watch">
 				<div class="playing-time"></div>
@@ -46,11 +40,10 @@
 		</div>
 		<script>
 			let ctInterval, mInterval, radio, url;
-			let currParser = 0, currTime = 0, playStatus = 'reading', smVolume = localStorage.currVolume || 70, smErrorCounter = 0, watch_pos = window.devicePixelRatio > 1 ? '-2px' : '-4px';
+			let currParser = 0, currTime = 0, getCurVolPos = 0, playStatus = 'reading', smVolume = localStorage.currVolume || 70, smErrorCounter = 0;
 
 			$(function() {
 				document.oncontextmenu = function() {return false;};
-				$(window).resize();
 				if(!localStorage.currVolume) localStorage.currVolume = '70';
 				localStorage.playSource = '';
 			});
@@ -127,11 +120,6 @@
 				window.open(this.href, '_blank').focus();
 			});
 
-			$(window).on('resize', function() {
-				$('body').css('font-family', this.devicePixelRatio > 1 ? 'DPix-opt, sans-serif' : 'DPix, sans-serif');
-				watch_pos = this.devicePixelRatio > 1 ? '-2px' : '-4px';
-			});
-
 			$(document).on('dblclick', '.station-text', function() {
 				if(showTitles.includes($(this).children('span:eq(1)').attr('title'))) {
 					showMessage('nocopy');
@@ -189,7 +177,13 @@
 						}
 						break;
 					case 82: { // r
-						if(playStatus === 'playing' || playStatus === 'connecting') $('.station.active').restart();
+						if(playStatus === 'playing' || playStatus === 'connecting') {
+							$('.station.active').restart();
+						} else if(!$('.station').hasClass('active')) {
+							showMessage('noselect');
+						} else {
+							showMessage('notplaying');
+						}
 						break;
 					}
 				}
