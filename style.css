@@ -460,12 +460,13 @@ html, body {
 	padding: 0;
 }
 
-.context-menu ul li:hover {
-	background-color: #eee;
+.context-menu ul li.menu-separator {
+	border-top: 1px solid rgb(163, 163, 163,.3);
+	margin: 5px 0;
 }
 
-.context-menu ul li:last-child {
-	border-top: 1px solid rgb(163, 163, 163);
+.context-menu ul li:hover {
+	background-color: #eee;
 }
 
 .context-menu ul li a {
