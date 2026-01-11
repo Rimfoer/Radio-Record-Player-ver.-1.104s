@@ -8,6 +8,7 @@
 		<script src="js/jquery-3.7.1.min.js"></script>
 		<script src="js/jquery-ui.min.js"></script>
 		<script src="js/jquery.animateSprite.min.js"></script>
+		<script src="js/jquery.mousewheel.js"></script>
 		<script src="js/stations.js"></script>
 		<script src="js/soundmanager2.js"></script>
 	</head>
@@ -41,7 +42,7 @@
 					<a href="https://rimfoer.github.io/Radio-Record-Player-ver.-1.104s/" name="Radio Record Player ver. 1.104s">Открыть в другом окне</a>
 				</li>
 				<li>
-					<a href="https://rimfoer.github.io/Radio-Record-Player-ver.-1.205/" name="Radio Record Player ver. 1.205"></a>
+					<a href="https://rimfoer.github.io/Radio-Record-Player-ver.-1.205/" name="Radio Record Player ver. 1.205">Перейти на новую версию</a>
 				</li>
 			</ul>
 		</div>
@@ -104,9 +105,11 @@
 				}
 				$(this).children('.volume-rollover').animateSprite(getCurVolPos===0 ? 'play' : 'frame', `${Math.round(VolXMouse/10)}`);
 				setTimeout(() => getCurVolPos = Math.round(VolXMouse/10), 300);
+				showMessage('volume', VolXMouse);
 			}).on('mouseleave', '.volume.active', function() {
 				$(this).children('.volume-rollover').animateSprite('play', `r${getCurVolPos}`);
 				setTimeout(() => getCurVolPos = 0, 300);
+				showMessage();
 			});
 
 			$(document).on('mouseenter mouseover', '.listen-player-button', function() {
@@ -166,6 +169,26 @@
 
 			$('body').on('mousemove', function(e) {
 				$('.tooltip').css({left: `${e.pageX+18}px`, top: `${e.pageY-2}px`});
+			});
+
+			$(document).mousewheel(function(event, delta) {
+				event.preventDefault();
+				if(playStatus === 'playing' || playStatus === 'connecting') {
+					if(delta>0) {
+						smVolume = Math.round(smVolume-5).limiter();
+					} else if(delta<0) {
+						smVolume = Math.round(smVolume+5).limiter();
+					}
+					$('.volume-click').animateSprite('frame', Math.round(smVolume/10));
+					soundManager.setVolume('record', smVolume);
+					showMessage('volume');
+					localStorage.currVolume = smVolume;
+					if(soundManager.muted) soundManager.unmute();
+				} else if(!$('.station').hasClass('active')) {
+					showMessage('noselect');
+				} else {
+					showMessage('notplaying');
+				}
 			});
 
 			$('body').on('keydown', function(e) {
