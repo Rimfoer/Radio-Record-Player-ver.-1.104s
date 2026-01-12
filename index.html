@@ -51,7 +51,7 @@
 			let currParser = 0, currTime = 0, getCurVolPos = 0, playStatus = 'reading', smVolume = localStorage.currVolume || 70, smErrorCounter = 0;
 
 			$(function() {
-				if(Number(window.innerWidth) === 422) showMessage('closeTab');
+				if(window.innerWidth < 430) showMessage('closeTab');
 				document.oncontextmenu = function() {return false;};
 				localStorage.playSource = '';
 			});
