@@ -112,8 +112,8 @@ String.prototype.setArtistName = function(s_name) {
 String.prototype.setSongName = function(a_name) {
 	let title = String(this);
 	if(title === "" || showTitles.includes(title) && !a_name) {
-		return '—';
-	} else if(showTitles.includes(title) && a_name !== "") {
+		return '';
+	} else if(showTitles.includes(title) && showArtists.includes(a_name)) {
 		return title;
 	} else if(specialChars.test(title)) {
 		return title.stripWhitespace('title0');
@@ -265,4 +265,5 @@ function setLSItem(id) {
 		}
 	});
 })(jQuery);
+
 
