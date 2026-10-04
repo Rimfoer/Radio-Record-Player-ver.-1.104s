@@ -88,12 +88,14 @@
 					setTimeout($(this).startPlay(url), 1000);
 				} else {
 					if(soundManager.soundIDs.length > 0) $(this).stop();
+					$('.station').find('.cover').animate({opacity: 0.4}, 300);
 					$('.station, .volume').removeClass('active');
 					/*******************************************/
 					$(this).closest('.station').addClass('active');
 					radio = $(this).closest('.station').attr('id'),
 					currStation = $('.station.active').index(),
 					url = stream[currStation];
+					$('.station').find('.cover').animate({opacity: 0.4}, 300);
 					$(this).startPlay(url);
 				}
 			});
