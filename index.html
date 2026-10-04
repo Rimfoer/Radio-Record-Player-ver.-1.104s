@@ -95,7 +95,7 @@
 					radio = $(this).closest('.station').attr('id'),
 					currStation = $('.station.active').index(),
 					url = stream[currStation];
-					$('.station').find('.cover').animate({opacity: 0.4}, 300);
+					$('.station').find('.cover').animate({opacity: 1}, 300);
 					$(this).startPlay(url);
 				}
 			});
