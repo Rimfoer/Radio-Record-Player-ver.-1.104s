@@ -8,7 +8,6 @@
 		<script src="js/jquery-3.7.1.min.js"></script>
 		<script src="js/jquery-ui.min.js"></script>
 		<script src="js/jquery.animateSprite.min.js"></script>
-		<script src="js/jquery.mousewheel.js"></script>
 		<script src="js/stations.js"></script>
 		<script src="js/soundmanager2.js"></script>
 	</head>
@@ -47,13 +46,16 @@
 			</ul>
 		</div>
 		<script>
-			let ctInterval, mInterval, radio, url;
-			let currParser = 0, currTime = 0, getCurVolPos = 0, playStatus = 'reading', smVolume = localStorage.currVolume || 70, smErrorCounter = 0;
+			let ctInterval, currStation, mInterval, radio, url;
+			let currParser = currTime = getCurVolPos = smErrorCounter = 0;
+			let	playStatus = 'reading';
+			let smVolume = localStorage.currVolume || 70;
+			let stationText = [];
+			let win = window.opener !== null ? true : false;
 
 			$(function() {
-				if(window.innerWidth < 430) showMessage('closeTab');
-				document.oncontextmenu = function() {return false;};
-				localStorage.playSource = '';
+				if(win) showMessage('closeTab');
+				currColorScheme();
 			});
 
 			soundManager.setup({
@@ -61,20 +63,22 @@
 				onready: function() {
 					checkLSItems();
 					playStatus = 'stopped';
+					localStorage.playSource = '';
 					$('.station').children('.play').removeClass('disabled');
 					$('.volume-click, .volume-rollover').animateSprite(animParams);
 					$('.volume-click').animateSprite('play', `${Math.round(smVolume/10)}`);
 					updateTitle(0);
 				},
-				useHighPerformance: false
+				useHighPerformance: true
 			});
 
 			soundManager.onerror = function() {
 				smErrorCounter++;
-				if(smErrorCounter<10) setTimeout(() => soundManager.reboot(), 3000);
+				if(smErrorCounter < 10) setTimeout(() => soundManager.reboot(), 3000);
 			};
 
-			$(document).on('click', '.play-button', function() {
+			$(document).on('click', '.play-button', function(e) {
+				e.preventDefault();
 				if($(this).hasClass('playing') && playStatus === 'playing') {
 					$(this).stop();
 				} else if($(this).closest('.station').hasClass('active') && playStatus === 'stopped') {
@@ -83,19 +87,20 @@
 					$(this).stop();
 					setTimeout($(this).startPlay(url), 1000);
 				} else {
-					if(soundManager.soundIDs.length>0) $(this).stop();
+					if(soundManager.soundIDs.length > 0) $(this).stop();
 					$('.station, .volume').removeClass('active');
 					/*******************************************/
 					$(this).closest('.station').addClass('active');
-					radio = $(this).closest('.station').attr('id');
-					url = stream[$(this).closest('.station').index()];
+					radio = $(this).closest('.station').attr('id'),
+					currStation = $('.station.active').index(),
+					url = stream[currStation];
 					$(this).startPlay(url);
 				}
 			});
 
 			$(document).on('mousemove mousedown', '.volume.active', function(e) {
-				let xpos = e.offsetX === undefined ? e.pageX-$(this).offset().left : e.offsetX;
-				let	VolXMouse = Number(Math.round(xpos/25*10)*10).limiter();
+				let xpos = e.offsetX || e.pageX-$(this).offset().left;
+				let	VolXMouse = Number(Math.round(xpos/25*10)*10).VolLimiter();
 				if(e.buttons === 1) { // лкм
 					$('.volume-click').animateSprite('frame', Math.round(VolXMouse/10));
 					smVolume = VolXMouse;
@@ -103,7 +108,7 @@
 					localStorage.currVolume = VolXMouse;
 					if(soundManager.muted) soundManager.unmute();
 				}
-				$(this).children('.volume-rollover').animateSprite(getCurVolPos===0 ? 'play' : 'frame', `${Math.round(VolXMouse/10)}`);
+				$(this).children('.volume-rollover').animateSprite(getCurVolPos === 0 ? 'play' : 'frame', `${Math.round(VolXMouse/10)}`);
 				setTimeout(() => getCurVolPos = Math.round(VolXMouse/10), 300);
 				showMessage('volume', VolXMouse);
 			}).on('mouseleave', '.volume.active', function() {
@@ -116,7 +121,7 @@
 				$(this).closest('.listen-player').children('.listen-player-selector').addClass('active');
 			}).on('click', '.listen-player-selector a', function() {
 				if($(this).closest('.station').hasClass('active') && playStatus === 'playing') {
-					$(`#${radio}`).stop();
+					$('.station.active').stop();
 					showMessage('nowplaying');
 				}
 				$('.listen-player-selector').removeClass('active');
@@ -131,12 +136,12 @@
 			});
 
 			$(document).on('dblclick', '.station-text', function() {
-				if(showTitles.includes($(this).children('span:eq(1)').attr('title'))) {
+				if(arrRadioShows.includes(stationText[1]) || arrTitles.includes(stationText[1])) {
 					showMessage('nocopy');
-				} else if($(this).children('span:eq(0)').attr('title') === '') {
+				} else if(stationText[0] === '' || arrArtists.includes(stationText[0])) {
 					showMessage('nocopy');
 				} else {
-					navigator.clipboard.writeText($(this).children('span:eq(0)').attr('title') + ' - ' + $(this).children('span:eq(1)').attr('title'));
+					navigator.clipboard.writeText(stationText[0] + ' - ' + stationText[1]);
 					showMessage('copy');
 				}
 			}).on('mouseenter', '.station-text span', function() {
@@ -150,10 +155,16 @@
 
 			$(document).on('click', function() {
 				$('.context-menu').removeClass('active');
+			}).on('oncontextmenu', function() {
+				return false;
 			}).on('contextmenu', function(e) {
 				e.preventDefault();
 				$('.context-menu').removeClass('active');
-				$('.context-menu').css({left: `${e.pageX}px`, top: `${e.pageY}px`});
+				let h = parseInt($('.context-menu').css('height')),
+					w = parseInt($('.context-menu').css('width')),
+					l = e.pageX+w >= window.innerWidth/100*99 ? e.pageX-w-15 : e.pageX,
+					t = e.pageY+h >= window.innerHeight/100*97 ? e.pageY-h-15 : e.pageY;
+				$('.context-menu').css({left: `${l}px`, top: `${t}px`});
 				$('.context-menu').addClass('active');
 			}).on('click', '.context-menu ul li a', function(e) {
 				e.preventDefault();
@@ -168,39 +179,22 @@
 			});
 
 			$('body').on('mousemove', function(e) {
-				$('.tooltip').css({left: `${e.pageX+18}px`, top: `${e.pageY-2}px`});
-			});
-
-			$(document).mousewheel(function(event, delta) {
-				event.preventDefault();
-				if(playStatus === 'playing' || playStatus === 'connecting') {
-					if(delta>0) {
-						smVolume = Math.round(smVolume-5).limiter();
-					} else if(delta<0) {
-						smVolume = Math.round(smVolume+5).limiter();
-					}
-					$('.volume-click').animateSprite('frame', Math.round(smVolume/10));
-					soundManager.setVolume('record', smVolume);
-					showMessage('volume');
-					localStorage.currVolume = smVolume;
-					if(soundManager.muted) soundManager.unmute();
-				} else if(!$('.station').hasClass('active')) {
-					showMessage('noselect');
-				} else {
-					showMessage('notplaying');
-				}
+				let ht = parseInt($('.tooltip').css('height')), // высота и ширина
+					wt = parseInt($('.tooltip').css('width')),  // всплывающей подсказки
+					lt = e.pageX+wt >= window.innerWidth/100*97 ? e.pageX-(wt+22) : e.pageX+18,
+					tt = e.pageY+ht >= window.innerHeight/100*97 ? e.pageY-(ht+2) : e.pageY-2;
+				$('.tooltip').css({left: `${lt+18}px`, top: `${tt-2}px`});
 			});
 
 			$('body').on('keydown', function(e) {
 				switch(e.which) {
 					case 27: // esc
-						$('.listen-player-selector').removeClass('active');
-						$('.context-menu').removeClass('active');
+						$('.context-menu, .listen-player-selector').removeClass('active');
 						break;
 					case 32: // пробел
 						radio !== undefined ? $('.station.active').play() : showMessage('noselect');
 						break;
-					case (e.which>=49 && e.which<=52 ? e.which : false): // 1, 2, 3, 4 (не numpad!)
+					case (e.which >= 49 && e.which <= 52 ? e.which : false): // 1, 2, 3, 4 (не numpad!)
 						$(`.station:eq(${e.which-49})`).play();
 						break;
 					case (e.which>=97 && e.which<=100 ? e.which : false): // 1, 2, 3, 4 (numpad)
