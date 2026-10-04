@@ -94,7 +94,7 @@ function updateTitle(startWith) {
 
 Number.prototype.parseCount = function() {
 	let curParserPos = Number(this);
-	return (curParserPos >= 3 ? 0 : curParserPos + 1);
+	currParser = curParserPos >= 3 ? 0 : curParserPos + 1;
 }
 
 Number.prototype.VolLimiter = function(num) {
