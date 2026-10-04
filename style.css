@@ -151,16 +151,9 @@ html, body {
 	left: -6px;
 	opacity: 0;
 	position: absolute;
-	transition: opacity .4s linear;
 	top: 3px;
 	width: 29px;
 	z-index: 0;
-}
-
-.radio .station .play .play-button.playing ~ .play-button-bg,
-.radio .station .play .play-button.connecting ~ .play-button-bg {
-	opacity: .8;
-	transition: opacity .4s linear;
 }
 
 .radio .station .station-text {
