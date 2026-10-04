@@ -2,7 +2,7 @@ const animParams = {fps:60,animations:{0:[0],1:[0,1],r1:[1,0],2:[0,1,2],r2:[2,1,
 const clr = {"artist":{"off":"rgb(255,255,255,0)","on":"rgb(255,255,255,.7)"},"title":{"off":"rgb(163,163,163,0)","on":"rgb(163,163,163,.8)"}};
 const parser = [71,43,40,57];
 const arrArtists = ['Record', 'Radio Record', 'Record Club', 'Record Deep', 'Record Megamix', 'Радио Рекорд', 'Рекорд'];
-const arrTitles = ['Armin Van Buuren', 'Feel', 'Gvozd', 'Guest Mix CYRIL', 'Kefir', 'Lady Waks', 'Lena Popova', 'Martin Garrix', 'Nejtrino & Baur', 'Oliver Heldens', 'Record Classix', 'Record Party', 'Record Superchart', 'Record Club Chart', 'Selection', 'The Voice Of My Soul', 'Zeskullz', 'by DJ Peretse', 'Цветкоff'];
+const arrTitles = ['Armin Van Buuren', 'Feel', 'Gvozd', 'Guest Mix CYRIL', 'Kefir', 'Lady Waks', 'Lena Popova', 'Martin Garrix', 'Nejtrino & Baur', 'Oliver Heldens', 'Record Classix', 'Record Party', 'Record Superchart', 'Record Club Chart', 'Selection', 'The Voice Of My Soul', 'Trance Music Club', 'Zeskullz', 'by DJ Peretse', 'Цветкоff'];
 const arrRadioShows = ['Record Dance Radio', 'Record News', 'Вейкаперы', 'Кремов и Хрусталёв', 'Русский Час'];
 const stream = ['https://radiorecord.hostingradio.ru/rr_main96.aacp','https://radiorecord.hostingradio.ru/ps96.aacp','https://radiorecord.hostingradio.ru/tm96.aacp','https://radiorecord.hostingradio.ru/teo96.aacp'];
 const specialChars = /[#$^*\=\{};:"\\|<>]/;
