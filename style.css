@@ -90,12 +90,7 @@ html, body {
 	background-size: contain;
 	height: 100%;
 	opacity: .4;
-	transition: opacity .2s ease-in;
 	width: 100%;
-}
-
-.radio .station.active .station-img .cover {
-	opacity: 1;
 }
 
 .radio .station .station-name {
