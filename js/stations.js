@@ -49,14 +49,14 @@ function parseTitle(...args) {
 		switch(key) {
 			case 'artist': {
 				args[1].children('span:eq(0)').html(val.setArtistName(args[0].song)).attr('title', val.checkTextLength());
-				args[1].children('span:eq(0)').animate({color: clr.artist.on}, 400);
+				args[1].children('span:eq(0)').delay(150).animate({color: clr.artist.on}, 400);
 				stationText[0] = val;
 				break;
 			}
 			case 'song': {
 				args[1].children('span:eq(1)').html(val.setSongName(args[2])).attr('title', val.checkTextLength());
 				$('.station').children('.pie-timer').removeClass('active');
-				args[1].children('span:eq(1)').animate({color: clr.title.on}, 400, function() {
+				args[1].children('span:eq(1)').delay(150).animate({color: clr.title.on}, 400, function() {
 					currParser.parseCount();
 					$(`.station:eq(${currParser})`).children('.pie-timer').addClass('active');
 					mInterval = setTimeout(updateTitle, 10000);
