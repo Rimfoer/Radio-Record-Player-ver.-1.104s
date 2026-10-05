@@ -83,7 +83,7 @@ async function updateTitle(startWith) {
 		$('.station').children('.pie-timer').removeClass('active');
 		showMessage('notloaded');
 		currParser.parseCount();
-		await sleep(200);
+		sleep(200);
 		$(`.station:eq(${currParser})`).children('.pie-timer').addClass('active');
 		mInterval = setTimeout(updateTitle, 10000);
 	});
