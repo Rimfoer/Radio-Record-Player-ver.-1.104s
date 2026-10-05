@@ -48,24 +48,18 @@ function parseTitle(...args) {
 	$.each(args[0], function(key, val) {
 		switch(key) {
 			case 'artist': {
-				args[1].children('span:eq(0)').animate({color: clr.artist.off}, 400, function() {
-					$(this).html(val.setArtistName(args[0].song));
-					$(this).attr('title', val.checkTextLength());
-					$(this).delay(150).animate({color: clr.artist.on}, 400);
-				});
+				args[1].children('span:eq(0)').html(val.setArtistName(args[0].song)).attr('title', val.checkTextLength());
+				args[1].children('span:eq(0)').animate({color: clr.artist.on}, 400);
 				stationText[0] = val;
 				break;
 			}
 			case 'song': {
-				args[1].children('span:eq(1)').animate({color: clr.title.off}, 400, function() {
-					$(this).html(val.setSongName(args[2]));
-					$(this).attr('title', val.checkTextLength());
-					$('.station').children('.pie-timer').removeClass('active');
-					$(this).delay(150).animate({color: clr.title.on}, 400, function() {
-						currParser.parseCount();
-						$(`.station:eq(${currParser})`).children('.pie-timer').addClass('active');
-						mInterval = setTimeout(updateTitle, 10000);
-					});
+				args[1].children('span:eq(1)').html(val.setSongName(args[2])).attr('title', val.checkTextLength());
+				$('.station').children('.pie-timer').removeClass('active');
+				args[1].children('span:eq(1)').animate({color: clr.title.on}, 400, function() {
+					currParser.parseCount();
+					$(`.station:eq(${currParser})`).children('.pie-timer').addClass('active');
+					mInterval = setTimeout(updateTitle, 10000);
 				});
 				stationText[1] = val;
 				break;
@@ -75,6 +69,7 @@ function parseTitle(...args) {
 }
 
 function updateTitle(startWith) {
+	currTextOff();
 	if(mInterval !== undefined) clearInterval(mInterval);
 	if(startWith >= 0) currParser = startWith;
 	$.getJSON('https://vk.radiorecord.ru/api/stations/now/').done(function(data) {
@@ -90,6 +85,11 @@ function updateTitle(startWith) {
 		setTimeout($(`.station:eq(${currParser})`).children('.pie-timer').addClass('active'), 200);
 		mInterval = setTimeout(updateTitle, 10000);
 	});
+}
+
+function currTextOff() {
+	$(`.station:eq(${currParser})`).find('.station-track-artist').animate({color: clr.artist.off}, 400);
+	$(`.station:eq(${currParser})`).find('.station-track-title').animate({color: clr.title.off}, 400);
 }
 
 Number.prototype.parseCount = function() {
