@@ -68,10 +68,11 @@ function parseTitle(...args) {
 	});
 }
 
-function updateTitle(startWith) {
+async function updateTitle(startWith) {
 	currTextOff();
-	if(mInterval !== undefined) clearInterval(mInterval);
+	if(mInterval !== undefined) clearTimeout(mInterval);
 	if(startWith >= 0) currParser = startWith;
+	await sleep(200);
 	$.getJSON('https://vk.radiorecord.ru/api/stations/now/').done(function(data) {
 		parseTitle(
 			data.result[parser[currParser]].track,
@@ -82,7 +83,8 @@ function updateTitle(startWith) {
 		$('.station').children('.pie-timer').removeClass('active');
 		showMessage('notloaded');
 		currParser.parseCount();
-		setTimeout($(`.station:eq(${currParser})`).children('.pie-timer').addClass('active'), 200);
+		await sleep(200);
+		$(`.station:eq(${currParser})`).children('.pie-timer').addClass('active');
 		mInterval = setTimeout(updateTitle, 10000);
 	});
 }
@@ -221,6 +223,10 @@ function currColorScheme() {
 	if(window.matchMedia('(prefers-color-scheme: dark)').matches) {
 		$('.context-menu').addClass('dark-mode');
 	}
+}
+
+function sleep(ms) {
+	return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 (function($) {
