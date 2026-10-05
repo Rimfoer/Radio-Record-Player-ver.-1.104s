@@ -68,11 +68,11 @@ function parseTitle(...args) {
 	});
 }
 
-async function updateTitle(startWith) {
+function updateTitle(startWith) {
 	currTextOff();
 	if(mInterval !== undefined) clearTimeout(mInterval);
 	if(startWith >= 0) currParser = startWith;
-	await sleep(200);
+	pause(200);
 	$.getJSON('https://vk.radiorecord.ru/api/stations/now/').done(function(data) {
 		parseTitle(
 			data.result[parser[currParser]].track,
@@ -83,7 +83,7 @@ async function updateTitle(startWith) {
 		$('.station').children('.pie-timer').removeClass('active');
 		showMessage('notloaded');
 		currParser.parseCount();
-		sleep(200);
+		pause(200);
 		$(`.station:eq(${currParser})`).children('.pie-timer').addClass('active');
 		mInterval = setTimeout(updateTitle, 10000);
 	});
@@ -225,8 +225,12 @@ function currColorScheme() {
 	}
 }
 
-function sleep(ms) {
-	return new Promise(resolve => setTimeout(resolve, ms));
+function pause(ms) {
+	setTimeout(wait, ms);
+}
+
+function wait(smth) {
+	if(!smth) return false;
 }
 
 (function($) {
