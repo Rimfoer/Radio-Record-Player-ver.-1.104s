@@ -63,7 +63,7 @@ function parseTitle(...args) {
 					$('.station').children('.pie-timer').removeClass('active');
 					$(this).delay(150).animate({color: clr.title.on}, 400, function() {
 						currParser.parseCount();
-						setTimeout($(`.station:eq(${currParser})`).children('.pie-timer').addClass('active'), 200);
+						$(`.station:eq(${currParser})`).children('.pie-timer').addClass('active');
 						mInterval = setTimeout(updateTitle, 10000);
 					});
 				});
@@ -87,7 +87,7 @@ function updateTitle(startWith) {
 		$('.station').children('.pie-timer').removeClass('active');
 		showMessage('notloaded');
 		currParser.parseCount();
-		setTimeout($(`.station:eq(${currParser})`).children('.pie-timer').addClass('active'), 200);
+		$(`.station:eq(${currParser})`).children('.pie-timer').addClass('active');
 		mInterval = setTimeout(updateTitle, 10000);
 	});
 }
