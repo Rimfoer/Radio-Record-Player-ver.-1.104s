@@ -138,6 +138,7 @@
 			});
 
 			$(document).on('dblclick', '.station-text', function() {
+				stationText[$(this).children('span:eq(0)').attr('title'), $(this).children('span:eq(1)').attr('title')];
 				if(arrRadioShows.includes(stationText[1]) || arrTitles.includes(stationText[1])) {
 					showMessage('nocopy');
 				} else if(stationText[0] === '' || arrArtists.includes(stationText[0])) {
