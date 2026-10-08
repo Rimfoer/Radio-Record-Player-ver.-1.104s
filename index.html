@@ -138,13 +138,13 @@
 			});
 
 			$(document).on('dblclick', '.station-text', function() {
-				stationText[$(this).children('span:eq(0)').attr('title'), $(this).children('span:eq(1)').attr('title')];
-				if(arrRadioShows.includes(stationText[1]) || arrTitles.includes(stationText[1])) {
+				let cs = $(this).closest('.station').index();
+				if(arrRadioShows.includes(stationText[cs][1]) || arrTitles.includes(stationText[cs][1])) {
 					showMessage('nocopy');
-				} else if(stationText[0] === '' || arrArtists.includes(stationText[0])) {
+				} else if(stationText[cs][0] === '' || arrArtists.includes(stationText[cs][0])) {
 					showMessage('nocopy');
 				} else {
-					navigator.clipboard.writeText(stationText[0] + ' - ' + stationText[1].replace(' (Record Mix)', ''));
+					navigator.clipboard.writeText(stationText[cs][0] + ' - ' + stationText[cs][1].replace(' (Record Mix)', ''));
 					showMessage('copy');
 				}
 			}).on('mouseenter', '.station-text span', function() {
