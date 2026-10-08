@@ -53,7 +53,7 @@ function parseTitle(...args) {
 					$(this).attr('title', val.checkTextLength());
 					$(this).delay(150).animate({color: clr.artist.on}, 400);
 				});
-				stationText[args[2]][0] = val;
+				if(stationText[args[2]][0] !== val) stationText[args[2]][0] = val;
 				break;
 			}
 			case 'song': {
@@ -67,7 +67,7 @@ function parseTitle(...args) {
 						mInterval = setTimeout(updateTitle, 10000);
 					});
 				});
-				stationText[args[2]][1] = val;
+				if(stationText[args[2]][1] !== val) stationText[args[2]][1] = val;
 				break;
 			}
 		}
