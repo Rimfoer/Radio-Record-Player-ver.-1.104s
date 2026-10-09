@@ -45,29 +45,27 @@ function setWindowParams(link) {
 }
 
 function parseTitle(...args) {
+	let _this = [args[1].children('span:eq(0)'), args[1].children('span:eq(1)')];
 	$.each(args[0], function(key, val) {
 		switch(key) {
 			case 'artist': {
-				args[1].children('span:eq(0)').animate({color: clr.artist.off}, 400, function() {
-					$(this).html(val.setArtistName(args[0].song));
-					$(this).attr('title', val.checkTextLength());
-					$(this).delay(150).animate({color: clr.artist.on}, 400);
-				});
-				if(stationText[args[2]][0] !== val) stationText[args[2]][0] = val;
+				_this[0].html(val.setArtistName(args[0].song));
+				_this[0].attr('title', val.checkTextLength());
+				_this[0].delay(150).animate({color: clr.artist.on}, 400);
+				stationText[args[2]][0] = val;
 				break;
 			}
 			case 'song': {
-				args[1].children('span:eq(1)').animate({color: clr.title.off}, 400, function() {
-					$(this).html(val.setSongName(args[2]));
-					$(this).attr('title', val.checkTextLength());
+				_this[1].html(val.setSongName(args[2]));
+				_this[1].attr('title', val.checkTextLength());
+				_this[1].delay(150).animate({color: clr.title.on}, 400, function() {
 					$('.station').children('.pie-timer').removeClass('active');
-					$(this).delay(150).animate({color: clr.title.on}, 400, function() {
-						currParser.parseCount();
-						$(`.station:eq(${currParser})`).children('.pie-timer').addClass('active');
-						mInterval = setTimeout(updateTitle, 10000);
-					});
+					tInterval = setTimeout(() => currDisplayText('off'), 10000);
+					currParser.parseCount();
+					$(`.station:eq(${currParser})`).children('.pie-timer').addClass('active');
+					mInterval = setTimeout(updateTitle, 10400);
 				});
-				if(stationText[args[2]][1] !== val) stationText[args[2]][1] = val;
+				stationText[args[2]][1] = val;
 				break;
 			}
 		}
@@ -84,12 +82,19 @@ function updateTitle(startWith) {
 			currParser
 		);
 	}).fail(function() {
+		currDisplayText('on');
 		$('.station').children('.pie-timer').removeClass('active');
+		tInterval = setTimeout(() => currDisplayText('off'), 10000);
 		showMessage('notloaded');
 		currParser.parseCount();
 		$(`.station:eq(${currParser})`).children('.pie-timer').addClass('active');
-		mInterval = setTimeout(updateTitle, 10000);
+		mInterval = setTimeout(updateTitle, 10400);
 	});
+}
+
+function currDisplayText(now) {
+	$(`.station:eq(${currParser})`).find('.station-track-artist').animate({color: clr.artist[now]}, 400);
+	$(`.station:eq(${currParser})`).find('.station-track-title').animate({color: clr.title[now]}, 400);
 }
 
 Number.prototype.parseCount = function() {
