@@ -321,7 +321,7 @@ html, body {
 	border-radius: 50%;
 	height: 14px;
 	width: 14px;
-	animation: timer 9.5s linear forwards;
+	animation: timer 10s linear forwards;
 }
 
 @keyframes timer {
