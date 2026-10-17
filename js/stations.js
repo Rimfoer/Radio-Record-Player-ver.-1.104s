@@ -161,11 +161,20 @@ function setWatch(ts) {
 		case 'connecting':
 		case 'loading':
 		case 'playing': {
-			$('.watch').children('.playing-time').html(`<span style="color: #666666">${hours}</span><span style="color: #A6A6A6; margin-left: -4px">:${minutes}</span><span style="color: rgb(255,255,255,.7); margin-left: -4px">:${seconds}</span><span style="color: rgb(87,87,87,.5)">&nbsp${milliseconds}</span>`);
+			$('.watch').children('.playing-time').html(`
+				<span style="color: #666666">${hours}</span>
+				<span style="color: #A6A6A6; margin-left: -4px">:${minutes}</span>
+				<span style="color: rgb(255,255,255,.7); margin-left: -4px">:${seconds}</span>
+				<span style="color: rgb(87,87,87,.5)">&nbsp${milliseconds}</span>
+			`);
 			break;
 		}
 		default: {
-			$('.watch').children('.playing-time').html(`<span style="color: #666666">${hours}</span><span style="color: #A6A6A6; margin-left: -4px">:${minutes}</span><span style="color: rgb(255,255,255,.7); margin-left: -4px">:${seconds}</span>`);
+			$('.watch').children('.playing-time').html(`
+				<span style="color: #666666">${hours}</span>
+				<span style="color: #A6A6A6; margin-left: -4px">:${minutes}</span>
+				<span style="color: rgb(255,255,255,.7); margin-left: -4px">:${seconds}</span>
+			`);
 		}
 	}
 }
