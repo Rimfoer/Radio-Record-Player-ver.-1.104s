@@ -3,9 +3,11 @@ const clr = {"artist":{"off":"rgb(255,255,255,0)","on":"rgb(255,255,255,.7)"},"t
 const parser = [71,43,40,57];
 const arrArtists = ['Record', 'Radio Record', 'Record Club', 'Record Deep', 'Record Megamix', 'Радио Рекорд', 'Рекорд'];
 const arrTitles = ['Armin Van Buuren', 'Feel', 'Gvozd', 'Guest Mix CYRIL', 'Kefir', 'Lady Waks', 'Lena Popova', 'Martin Garrix', 'Nejtrino & Baur', 'Oliver Heldens', 'Record Classix', 'Record Party', 'Record Superchart', 'Record Club Chart', 'Selection', 'The Voice Of My Soul', 'Trance Music Club', 'Zeskullz', 'by DJ Peretse', 'Цветкоff'];
-const arrRadioShows = ['Record Dance Radio', 'Record News', 'Вейкаперы', 'Кремов и Хрусталёв', 'Русский Час'];
+const arrRadioShows = ['InvestFuture', 'Record Dance Radio', 'Record News', 'Вейкаперы', 'Кремов и Хрусталёв', 'Русский Час'];
 const stream = ['https://radiorecord.hostingradio.ru/rr_main96.aacp','https://radiorecord.hostingradio.ru/ps96.aacp','https://radiorecord.hostingradio.ru/tm96.aacp','https://radiorecord.hostingradio.ru/teo96.aacp'];
 const specialChars = /[#$^*\=\{};:"\\|<>]/;
+const arrMessages = {'closeTab': 'Теперь вкладку можно закрыть.', 'copy': 'Текст скопирован в буфер обмена', 'copytext': 'Нажми два раза, чтобы скопировать в буфер обмена', 'mute': 'Звук приглушен', 'nocopy': 'Текст не был скопирован', 'noselect': 'Станция не выбрана', 'noconnect': 'Ошибка подключения к аудиопотоку.', 'notloaded': 'Ошибка загрузки данных о текущем треке', 'notplaying': 'В данный момент ничего не играет.', 'played': 'Воспроизведение остановлено', 'restart': 'Воспроизведение перезапущено', 'unmute': 'Звук возобновлен', 'volume': 'Громкость: '};
+const stationNames = ['Radio Record', 'Pirate Station', 'Trancemission', 'Teodor'];
 
 function currPlayerStatus(stat) {
 	let playButton = $('.station.active').find('.play-button');
@@ -159,50 +161,21 @@ function setWatch(ts) {
 		case 'connecting':
 		case 'loading':
 		case 'playing': {
-			$('.watch').children('.playing-time').html(`
-				<span style="color: #666666">${hours}</span>
-				<span style="color: #A6A6A6; margin-left: -4px">:${minutes}</span>
-				<span style="color: rgb(255,255,255,.7); margin-left: -4px">:${seconds}</span>
-				<span style="color: rgb(87,87,87,.5)">&nbsp${milliseconds}</span>
-			`);
+			$('.watch').children('.playing-time').html(`<span style="color: #666666">${hours}</span><span style="color: #A6A6A6; margin-left: -4px">:${minutes}</span><span style="color: rgb(255,255,255,.7); margin-left: -4px">:${seconds}</span><span style="color: rgb(87,87,87,.5)">&nbsp${milliseconds}</span>`);
 			break;
 		}
 		default: {
-			$('.watch').children('.playing-time').html(`
-				<span style="color: #666666">${hours}</span>
-				<span style="color: #A6A6A6; margin-left: -4px">:${minutes}</span>
-				<span style="color: rgb(255,255,255,.7); margin-left: -4px">:${seconds}</span>
-			`);
+			$('.watch').children('.playing-time').html(`<span style="color: #666666">${hours}</span><span style="color: #A6A6A6; margin-left: -4px">:${minutes}</span><span style="color: rgb(255,255,255,.7); margin-left: -4px">:${seconds}</span>`);
 		}
 	}
 }
 
 function showMessage(txt, val) {
-	let msg;
 	if(txt !== undefined && val === undefined) {
-		switch(txt) {
-			case 'closeTab': msg = 'Теперь вкладку можно закрыть.'; break;
-			case 'copy': msg = 'Текст скопирован в буфер обмена'; break;
-			case 'copytext': msg = 'Нажми два раза, чтобы скопировать в буфер обмена'; break;
-			case 'mute': msg = 'Звук приглушен'; break;
-			case 'nocopy': msg = 'Текст не был скопирован'; break;
-			case 'noselect': msg = 'Станция не выбрана'; break;
-			case 'noconnect': msg = 'Ошибка подключения к аудиопотоку. Проверьте состояние интернет-соединения или попробуйте подключиться позже.'; break;
-			case 'notloaded': msg = 'Ошибка загрузки данных о текущем треке'; break;
-			case 'notplaying': msg = 'В данный момент ничего не играет.';
-			case 'nowplaying': msg = 'Воспроизведение остановлено'; break;
-			case 'restart': msg = 'Воспроизведение перезапущено'; break;
-			case 'unmute': msg = 'Звук возобновлен'; break;
-			case 'volume': msg = `Громкость ${smVolume}%`; break;
-			default: msg = 'Не понимаю, что ты от меня хочешь';
-		}
-		$('.tooltip').html(msg).addClass('active');
-		setTimeout(() => $('.tooltip').removeClass('active'), 5000+String(msg).length*50);
+		$('.tooltip').html(arrMessages[txt]).addClass('active');
+		setTimeout(() => $('.tooltip').removeClass('active'), 5000 + String(arrMessages[txt]).length * 50);
 	} else if(txt !== undefined && val !== undefined) {
-		switch(txt) {
-			case 'volume': msg = `Громкость ${val}%`; break;
-		}
-		$('.tooltip').hasClass('active') ? $('.tooltip').html(msg) : $('.tooltip').html(msg).addClass('active');
+		$('.tooltip').html(arrMessages[txt] + val + (txt === 'volume' ? '%' : '')).addClass('active');
 	} else {
 		$('.tooltip').removeClass('active');
 	}
@@ -218,7 +191,7 @@ function checkLSItems() {
 function setLSItem(id) {
 	switch(id) {
 		case 'copyTextTip': localStorage[id] = 'false'; break;
-		case 'currVolume': localStorage[id] = '70'; break;
+		case 'currVolume': localStorage[id] = '75'; break;
 	}
 }
 
@@ -234,19 +207,19 @@ function currColorScheme() {
 			$(this).find('.play-button').trigger('click');
 		},
 		restart: function() {
-			soundManager.destroySound('record');
+			soundManager.destroySound(stationNames[currStation]);
 			playStatus = 'connecting';
 			currPlayerStatus('connecting');
 			setTimeout($('.station.active').startPlay(url), 1500);
 			showMessage('restart');
 		},
 		startPlay: function(link) {
-			if(playStatus === 'playing' || playStatus === 'connecting') $('.station').stop();
+			if(soundManager.soundIDs.length > 0) $('.station').stop();
 			soundObject = soundManager.createSound({
 				autoLoad: false,
 				autoPlay: true,
 				html5PollingInterval: true,
-				id: 'record',
+				id: stationNames[currStation],
 				onfinish: function() {
 					$('.station.active').restart();
 				},
@@ -262,13 +235,12 @@ function currColorScheme() {
 				soundManager.unmute();
 				$('.volume-click').animateSprite('frame', smVolume/10);
 			}
-			setWatch(0);
 			$('.watch').addClass('active');
 			$('.station.active').children('.volume').addClass('active');
 			localStorage.playSource = 'current';
 		},
 		stop: function() {
-			soundManager.destroySound('record');
+			soundManager.destroySound(stationNames[currStation]);
 			clearInterval(ctInterval);
 			$('.station.active').children('.volume').removeClass('active');
 			$('.station.active').find('.play-button').removeClass(['connecting','playing']);
@@ -281,5 +253,3 @@ function currColorScheme() {
 		}
 	});
 })(jQuery);
-
-
