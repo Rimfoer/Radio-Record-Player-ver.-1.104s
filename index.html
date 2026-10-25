@@ -184,7 +184,7 @@
 			$('body').on('mousemove', function(e) {
 				let ht = parseInt($('.tooltip').css('height')), // высота и ширина
 					wt = parseInt($('.tooltip').css('width')),  // всплывающей подсказки
-					lt = e.pageX+wt >= window.innerWidth/100*99 ? e.pageX-(wt+32) : e.pageX+5,
+					lt = e.pageX+wt >= window.innerWidth/100*99 ? e.pageX-(wt+32) : e.pageX+10,
 					tt = e.pageY+ht >= window.innerHeight/100*97 ? e.pageY-(ht+2) : e.pageY-2;
 				$('.tooltip').css({left: `${lt}px`, top: `${tt}px`});
 			}).on('keydown', function(e) {
