@@ -60,6 +60,7 @@
 
 			soundManager.setup({
 				preferFlash: false,
+				useHighPerformance: true,
 				onready: function() {
 					checkLSItems();
 					playStatus = 'stopped';
@@ -68,8 +69,7 @@
 					$('.volume-click, .volume-rollover').animateSprite(animParams);
 					$('.volume-click').animateSprite('play', `${Math.round(smVolume/10)}`);
 					updateTitle(0);
-				},
-				useHighPerformance: true
+				}
 			});
 
 			soundManager.onerror = function() {
@@ -165,8 +165,8 @@
 				$('.context-menu').removeClass('active');
 				let h = parseInt($('.context-menu').css('height')),
 					w = parseInt($('.context-menu').css('width')),
-					l = e.pageX+w >= window.innerWidth/100*99 ? e.pageX-w-15 : e.pageX,
-					t = e.pageY+h >= window.innerHeight/100*97 ? e.pageY-h-15 : e.pageY;
+					l = e.pageX+w >= window.innerWidth/100*99 ? e.pageX-(w+15) : e.pageX,
+					t = e.pageY+h >= window.innerHeight/100*97 ? e.pageY-(h+15) : e.pageY;
 				$('.context-menu').css({left: `${l}px`, top: `${t}px`});
 				$('.context-menu').addClass('active');
 			}).on('click', '.context-menu ul li a', function(e) {
@@ -184,12 +184,10 @@
 			$('body').on('mousemove', function(e) {
 				let ht = parseInt($('.tooltip').css('height')), // высота и ширина
 					wt = parseInt($('.tooltip').css('width')),  // всплывающей подсказки
-					lt = e.pageX+wt >= window.innerWidth/100*97 ? e.pageX-(wt+22) : e.pageX+18,
+					lt = e.pageX+wt >= window.innerWidth/100*99 ? e.pageX-(wt+32) : e.pageX+5,
 					tt = e.pageY+ht >= window.innerHeight/100*97 ? e.pageY-(ht+2) : e.pageY-2;
-				$('.tooltip').css({left: `${lt+18}px`, top: `${tt-2}px`});
-			});
-
-			$('body').on('keydown', function(e) {
+				$('.tooltip').css({left: `${lt}px`, top: `${tt}px`});
+			}).on('keydown', function(e) {
 				switch(e.which) {
 					case 27: // esc
 						$('.context-menu, .listen-player-selector').removeClass('active');
