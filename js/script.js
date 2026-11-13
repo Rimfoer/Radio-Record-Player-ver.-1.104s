@@ -1,7 +1,7 @@
 let ctInterval, currStation, mInterval, radio, tInterval, url;
 let currParser = currTime = getCurVolPos = smErrorCounter = 0;
 let	playStatus = 'reading';
-let smVolume = localStorage.currVolume || 70;
+let smVolume = localStorage.currVolume || 75;
 let stationText = [[],[],[],[]];
 let win = window.opener !== null ? true : false;
 
