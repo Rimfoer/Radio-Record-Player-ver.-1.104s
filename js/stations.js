@@ -12,7 +12,7 @@ const stationNames = ['Radio Record', 'Pirate Station', 'Trancemission', 'Teodor
 function currPlayerStatus(stat) {
 	let playButton = $('.station.active').find('.play-button');
 	let playButtonBg = $('.station.active').find('.play-button-bg');
-	switch(stat !== undefined ? stat : playStatus) {
+	switch(isUndefined(stat) ? stat : playStatus) {
 		case 'waiting':
 		case 'stalled':
 		case 'loading':
@@ -62,14 +62,11 @@ function parseTitle(...args) {
 }
 
 function updateTitle(startWith) {
-	if(mInterval !== undefined) clearTimeout(mInterval);
-	if(startWith >= 0) currParser = startWith;
+	let el = $(`.station:eq(${currParser})`).children('.station-text');
+	if(isUndefined(mInterval)) clearTimeout(mInterval);
 	$.getJSON('https://vk.radiorecord.ru/api/stations/now/').done(function(data) {
 		parseTitle(
-			data.result[parser[currParser]].track,
-			$(`.station:eq(${currParser})`).children('.station-text'),
-			currParser
-		);
+			data.result[parser[!startWith ? currParser : startWith]].track, el, currParser);
 	}).fail(function() {
 		currDisplayText('on');
 		$('.station').children('.pie-timer').removeClass('active');
