@@ -98,7 +98,7 @@ Number.prototype.VolLimiter = function(num) {
 String.prototype.setArtistName = function(songName) {
 	let artist = String(this);
 	if(!isEmpty(artist) || arrArtists.includes(artist)) {
-		return (arrRadioShows.includes(songName) ? `В эфире: ${artist}` : 'В эфире:');
+		return (arrTitles.includes(songName) ? `В эфире: ${artist}` : 'В эфире:');
 	} else {
 		return artist.stripWhitespace();
 	}
