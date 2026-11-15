@@ -1,13 +1,6 @@
 let ctInterval, currStation, mInterval, radio, tInterval, url;
 let currParser = currTime = getCurVolPos = smErrorCounter = 0;
-let	playStatus = 'reading';
-let smVolume = localStorage.currVolume || 75;
-let stationText = [[],[],[],[]];
-let usp = new URLSearchParams(window.location.search);
-let win = window.opener !== null ? true : false;
-
-if(isUndefined(usp)) runQueryString();
-currColorScheme();
+let	playStatus = 'reading', smVolume = localStorage.currVolume || 75, stationText = [[],[],[],[]];
 
 $(function() {
 	soundManager.setup({
@@ -15,6 +8,7 @@ $(function() {
 		useHighPerformance: true,
 		onready: function() {
 			checkLSItems();
+			currColorScheme();
 			playStatus = 'stopped';
 			localStorage.playSource = '';
 			$('.station').children('.play').removeClass('disabled');
