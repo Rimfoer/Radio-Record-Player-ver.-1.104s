@@ -3,9 +3,10 @@ let currParser = currTime = getCurVolPos = smErrorCounter = 0;
 let	playStatus = 'reading';
 let smVolume = localStorage.currVolume || 75;
 let stationText = [[],[],[],[]];
+let usp = new URLSearchParams(window.location.search);
 let win = window.opener !== null ? true : false;
 
-if(win) showMessage('closeTab');
+if(isUndefined(usp)) runQueryString();
 currColorScheme();
 
 $(function() {
