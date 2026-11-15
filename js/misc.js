@@ -1,7 +1,7 @@
 function runQueryString() {
 	usp.forEach((val, key) => {
 		switch(key) {
-			case 'win': if(val === 'popup') openURL(document.title, window.location.href.replace('?win=popup', '');
+			case 'win': if(val === 'popup') openURL(document.title, window.location.href.replace('?win=popup', ''));
 		}
 	});
 }
