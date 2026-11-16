@@ -1,5 +1,5 @@
 const animParams = {fps:60,animations:{0:[0],1:[0,1],r1:[1,0],2:[0,1,2],r2:[2,1,0],3:[0,1,2,3],r3:[3,2,1,0],4:[0,1,2,3,4],r4:[4,3,2,1,0],5:[0,1,2,3,4,5],r5:[5,4,3,2,1,0],6:[0,1,2,3,4,5,6],r6:[6,5,4,3,2,1,0],7:[0,1,2,3,4,5,6,7],r7:[7,6,5,4,3,2,1,0],8:[0,1,2,3,4,5,6,7,8],r8:[8,7,6,5,4,3,2,1,0],9:[0,1,2,3,4,5,6,7,8,9],r9:[9,8,7,6,5,4,3,2,1,0],10:[0,1,2,3,4,5,6,7,8,9,10],r10:[10,9,8,7,6,5,4,3,2,1,0]},loop: false,autoPlay: false};
-const clr = {"artist":{"off":"rgb(255,255,255,0)","on":"rgb(255,255,255,.7)"},"title":{"off":"rgb(163,163,163,0)","on":"rgb(163,163,163,.8)"}};
+const arrTextColor = {"artist":{"off":"rgb(255,255,255,0)","on":"rgb(255,255,255,1)"},"title":{"off":"rgb(163,163,163,0)","on":"rgb(163,163,163,1)"}};
 const parser = [71,43,40,57];
 const arrArtists = ['Record', 'Radio Record', 'Record Club', 'Record Deep', 'Record Megamix', 'Радио Рекорд', 'Рекорд'];
 const arrTitles = ['Altera Moon', 'Armin Van Buuren', 'Feel', 'Gvozd', 'Guest Mix CYRIL', 'Kefir', 'Lady Waks', 'Lena Popova', 'Martin Garrix', 'Nejtrino & Baur', 'Oliver Heldens', 'Record Classix', 'Record Party', 'Record Superchart', 'Record Club Chart', 'Selection', 'The Voice Of My Soul', 'Trance Music Club', 'Zeskullz', 'by DJ Peretse', 'Цветкоff'];
@@ -40,14 +40,14 @@ function parseTitle(...args) {
 			case 'artist': {
 				_this[0].html(val.setArtistName(args[0].song));
 				_this[0].attr('title', val.checkTextLength());
-				_this[0].delay(150).animate({color: clr.artist.on}, 400);
+				_this[0].delay(150).animate({color: arrTextColor.artist.on}, 500);
 				stationText[args[2]][0] = val;
 				break;
 			}
 			case 'song': {
 				_this[1].html(val.setSongName(args[2]));
 				_this[1].attr('title', val.checkTextLength());
-				_this[1].delay(150).animate({color: clr.title.on}, 400, function() {
+				_this[1].delay(150).animate({color: arrTextColor.title.on}, 500, function() {
 					$('.station').children('.pie-timer').removeClass('active');
 					tInterval = setTimeout(() => currDisplayText('off'), 10000);
 					currParser.parseCount();
@@ -74,13 +74,13 @@ function updateTitle(startWith) {
 		showMessage('notloaded');
 		currParser.parseCount();
 		$(`.station:eq(${currParser})`).children('.pie-timer').addClass('active');
-		mInterval = setTimeout(updateTitle, 10400);
+		mInterval = setTimeout(updateTitle, 10500);
 	});
 }
 
 function currDisplayText(now) {
-	$(`.station:eq(${currParser})`).find('.station-track-artist').animate({color: clr.artist[now]}, 400);
-	$(`.station:eq(${currParser})`).find('.station-track-title').animate({color: clr.title[now]}, 400);
+	$(`.station:eq(${currParser})`).find('.station-track-artist').animate({color: arrTextColor.artist[now]}, 500);
+	$(`.station:eq(${currParser})`).find('.station-track-title').animate({color: arrTextColor.title[now]}, 500);
 }
 
 Number.prototype.parseCount = function() {
