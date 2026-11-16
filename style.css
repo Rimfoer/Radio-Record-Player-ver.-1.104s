@@ -361,7 +361,7 @@ html, body {
 .footer .link a {
 	color: #b8b8b8;
 	height: 14px;
-	opacity: .5;
+	opacity: .9;
 	user-select: none;
 	z-index: 10;
 }
