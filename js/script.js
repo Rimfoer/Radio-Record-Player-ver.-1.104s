@@ -37,7 +37,7 @@ $(function() {
 			$('.station, .volume').removeClass('active');
 			/*******************************************/
 			$(this).closest('.station').addClass('active');
-			radio = $(this).closest('.station').attr('id'),
+			radio = $('.station.active').attr('id'),
 			currStation = $('.station.active').index(),
 			url = stream[currStation];
 			$('.station.active').find('.cover').animate({opacity: 1}, 300);
@@ -52,7 +52,7 @@ $(function() {
 		if(e.buttons === 1) { // лкм
 			$('.volume-click').animateSprite('frame', Math.round(VolXMouse/10));
 			smVolume = VolXMouse;
-			soundManager.setVolume('record', VolXMouse);
+			soundManager.setVolume(stationNames[currStation], VolXMouse);
 			localStorage.currVolume = VolXMouse;
 			if(soundManager.muted) soundManager.unmute();
 		}
