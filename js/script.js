@@ -32,15 +32,17 @@ $(function() {
 		} else if($(this).hasClass('playing') && playStatus === 'ended') {
 			$(this).restart();
 		} else {
-			if(soundManager.soundIDs.length > 0) $(this).stop();
-			$('.station').find('.cover').animate({opacity: 0.4}, 300);
-			$('.station, .volume').removeClass('active');
+			if(soundManager.soundIDs.length > 0 || $('.station').hasClass('active')) {
+				$(this).stop();
+				$('.station').find('.cover').animate({opacity: 0.4}, 300);
+				$('.station, .volume').removeClass('active');
+			}
 			/*******************************************/
 			$(this).closest('.station').addClass('active');
+			$('.station.active').find('.cover').animate({opacity: 1}, 300);
 			radio = $('.station.active').attr('id'),
 			currStation = $('.station.active').index(),
 			url = stream[currStation];
-			$('.station.active').find('.cover').animate({opacity: 1}, 300);
 			$(this).startPlay(url);
 		}
 	});
@@ -86,7 +88,7 @@ $(function() {
 		let cs = $(this).closest('.station').index();
 		if(arrRadioShows.includes(stationText[cs][1]) || arrTitles.includes(stationText[cs][1])) {
 			showMessage('nocopy');
-		} else if(stationText[cs][0] === '' || arrArtists.includes(stationText[cs][0])) {
+		} else if(isEmpty(stationText[cs][0]) || arrArtists.includes(stationText[cs][0])) {
 			showMessage('nocopy');
 		} else {
 			navigator.clipboard.writeText(stationText[cs][0] + ' - ' + stationText[cs][1].replace(' (Record Mix)', ''));
@@ -138,7 +140,7 @@ $(function() {
 				$('.context-menu, .listen-player-selector').removeClass('active');
 				break;
 			case 32: // пробел
-				radio !== undefined ? $('.station.active').play() : showMessage('noselect');
+				isUndefined(radio) ? $('.station.active').play() : showMessage('noselect');
 				break;
 			case (e.which >= 49 && e.which <= 52 ? e.which : false): // 1, 2, 3, 4 (не numpad!)
 				$(`.station:eq(${e.which-49})`).play();
