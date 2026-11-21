@@ -1,5 +1,5 @@
 const TitleName = document.title;
-let ctInterval, currStation, mInterval, radio, tInterval, url;
+let ctInterval, currStation, mInterval, radio, tInterval, updIntrvl, url;
 let currParser = currTime = getCurVolPos = smErrorCounter = 0;
 let	playStatus = 'reading', smVolume = localStorage.currVolume || 75, stationText = [[],[],[],[]];
 
@@ -131,9 +131,13 @@ $(function() {
 
 	$(document).on('visibilitychange', function() {
 		if(this.hidden) {
-			if(isUndefined(radio) || isEmpty(radio))
-				this.title = `${stationText[currStation][0]} — ${stationText[currStation][1]}`;
+			if(isUndefined(radio) || isEmpty(radio)) {
+				updIntrvl = setInterval(() => {
+					this.title = `${stationText[currStation][0]} — ${stationText[currStation][1]}`;
+				}, 5000);
+			}
 		} else {
+			clearInterval(updIntrvl);
 			this.title = TitleName;
 		}
 	});
