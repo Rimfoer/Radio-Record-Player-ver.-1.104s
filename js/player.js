@@ -46,7 +46,7 @@
 			currTime = 0,
 			playStatus = 'stopped';
 			setWatch(0);
-			localStorage.playSource = navigator.mediaSession.metadata = '';
+			localStorage.playSource = '';
 		}
 	});
 })(jQuery);
