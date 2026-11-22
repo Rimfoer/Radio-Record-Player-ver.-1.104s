@@ -177,7 +177,7 @@ function setMediaSession() {
 		title: stationText[currStation][0],
 		artist: stationText[currStation][1],
 		artwork: [
-			{src: `/img/logos/${radio}.png`, sizes: '128x128', type: 'image/png'}
+			{src: `img/logos/${radio}.png`, sizes: '105x125', type: 'image/png'}
 		]
 	});
 }
