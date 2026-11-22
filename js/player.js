@@ -34,6 +34,7 @@
 			$('.watch').addClass('active');
 			$('.station.active').children('.volume').addClass('active');
 			localStorage.playSource = 'current';
+			setMediaSession()
 		},
 		stop: function() {
 			soundManager.destroySound(stationNames[currStation]);
@@ -45,7 +46,7 @@
 			currTime = 0,
 			playStatus = 'stopped';
 			setWatch(0);
-			localStorage.playSource = '';
+			localStorage.playSource = navigator.mediaSession.metadata = '';
 		}
 	});
 })(jQuery);
