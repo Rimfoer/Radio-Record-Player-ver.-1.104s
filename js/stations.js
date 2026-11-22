@@ -59,6 +59,9 @@ function parseTitle(...args) {
 			}
 		}
 	});
+	if(args[2] === currStation && playStatus === 'playing') {
+		setMediaSession();
+	}
 }
 
 function updateTitle(startWith) {
@@ -167,4 +170,14 @@ function setWatch(ts) {
 			`);
 		}
 	}
+}
+
+function setMediaSession() {
+	navigator.mediaSession.metadata = new MediaMetadata({
+		title = stationText[currStation][0],
+		artist = stationText[currStation][1],
+		artwork: [
+			{src: `/img/logos/${radio}.png`, sizes: '128x128', type: 'image/png'}
+		]
+	});
 }
