@@ -86,9 +86,10 @@ $(function() {
 
 	$(document).on('dblclick', '.station-text', function() {
 		let cs = $(this).closest('.station').index();
+		console.log(`${stationText[cs][0]}\n${stationText[cs][0]}`);
 		if(arrRadioShows.includes(stationText[cs][1]) || arrTitles.includes(stationText[cs][1])) {
 			showMessage('nocopy');
-		} else if(!isEmpty(stationText[cs][0]) || arrArtists.includes(stationText[cs][0])) {
+		} else if(stationText[cs][0] === '' || arrArtists.includes(stationText[cs][0])) {
 			showMessage('nocopy');
 		} else {
 			navigator.clipboard.writeText(stationText[cs][0] + ' - ' + stationText[cs][1].replace(' (Record Mix)', ''));
